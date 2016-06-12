@@ -13,11 +13,11 @@ public class KohonenNetwork {
 
     //promień sąsiedztwa
     private double lambda = 0.8;
-    
+
     //współczynnik uczenia
     private double alpha = 0.8;
 
-//    private static final double DECAY = 0.995;
+    //współczynnik ograniczania uczenia
     private static final double DECAY = 0.995;
 
     public static KohonenNetwork instance = null;
@@ -123,6 +123,12 @@ public class KohonenNetwork {
             outputs.add(n.getOutput());
         });
         return outputs;
+    }
+
+    public void train(int number) {
+        for (int i = 0; i < number; i++) {
+            KohonenNetwork.getInstance().updateWeights();
+        }
     }
 
 }

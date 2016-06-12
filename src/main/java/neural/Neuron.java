@@ -18,13 +18,6 @@ public class Neuron {
 
     private double output;  //wartość wyjścia neuronu
 
-    //konstruktor - inicjalizacja neuronu
-//    public Neuron() {
-//        //tworzenie list wejść i odpowiadających im wag
-//        this.inputs = new ArrayList<>();
-//        this.weights = new ArrayList<>();
-//
-//    }
     public Neuron(ArrayList<Integer> inputs) {
         this.weights = new ArrayList<>();
         setInputs(inputs);

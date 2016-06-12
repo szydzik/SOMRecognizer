@@ -129,12 +129,6 @@ public class MainGui extends JFrame {
     private void setOnClicks() {
         clearButton.addActionListener(e -> drawingPanel.clear());
 
-//        trainButton.addActionListener(e -> {
-//            String letter = (String) trainAsCombo.getSelectedItem();
-//            networkTrainer.addTrainingSet(new TrainingSet(drawingPanel.getPixels(), GoodOutputs.getInstance().getGoodOutput(letter)));
-//            ReadWriteFile.saveToFile(drawingPanel.getPixels(), letter);
-//        });
-//
         transformButton.addActionListener(e -> {
 
             KohonenNetwork.getInstance().setInputs(drawingPanel.getPixels());
