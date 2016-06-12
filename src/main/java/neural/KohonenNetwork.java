@@ -11,9 +11,13 @@ public class KohonenNetwork {
 
     private ArrayList<Neuron> neurons = new ArrayList<>();
 
-    private double lambda = 0.4;
-    private double alpha = 0.4;
+    //promień sąsiedztwa
+    private double lambda = 0.8;
+    
+    //współczynnik uczenia
+    private double alpha = 0.8;
 
+//    private static final double DECAY = 0.995;
     private static final double DECAY = 0.995;
 
     public static KohonenNetwork instance = null;
@@ -61,12 +65,13 @@ public class KohonenNetwork {
     private int findBMU(ArrayList<Double> weights) {
         double minimumDistance = 100000000.0; // A high initial value which will be overwritten
         int minimumIndex = -1;
-        for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
+        for (int i = 0; i < neurons.size(); i++) {
             double distance = 0;
 //            double distance = (Math.pow((location1 - weight[i][0]), 2)) + (Math.pow((location2 - weight[i][1]), 2));
 //                double distance = (Math.pow((location1 - neurons.get(i).getWeights().get(j)), 2)) + (Math.pow((location2 - neurons.get(i).getWeights().get(j)), 2));
-            for (int j = 0; j < neurons.get(i).getWeights().size(); j++) {
-                distance += (Math.pow((weights.get(j) - neurons.get(i).getWeights().get(j)), 2));
+            for (int j = 0; j < weights.size(); j++) {
+                //(weight(j)-neuron(i)Weigh(j))^2
+                distance += Math.pow((weights.get(j) - neurons.get(i).getWeights().get(j)), 2);
             }
 
             if (distance < minimumDistance) {
@@ -79,15 +84,20 @@ public class KohonenNetwork {
 
     // Calculates the distance between neurons
     private double Phi(int index, int index2, double lambda) {
+        //exp((-distance(x,y)^2)/(2*lambda^2)
         double distance = Math.exp(-1.0 * Math.pow(getDistance(index, index2), 2) / (2.0 * Math.pow(lambda, 2)));
-//        System.out.println("Distance: "+distance);
         return distance;
     }
 
     private double getDistance(int index, int index2) {
         double temp = 0;
-        for (int j = 0; j < neurons.size(); j++) {
-            temp += Math.pow(neurons.get(index).getWeights().get(j) - neurons.get(index2).getWeights().get(j), 2);
+        try {
+            for (int j = 0; j < neurons.size(); j++) {
+                temp += Math.pow(neurons.get(index).getInputs().get(j) - neurons.get(index2).getWeights().get(j), 2);
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Exception: " + e.getMessage());
+            System.out.println("index: " + index + ", index2: " + index2 + ", neurons.size()= " + neurons.size());
         }
         return Math.sqrt(temp);
     }

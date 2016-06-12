@@ -62,6 +62,10 @@ public class Neuron {
         calculateOutput();
         return output;
     }
+    
+    public ArrayList<Integer> getInputs(){
+        return inputs;
+    }
 
     @Override
     public String toString() {
