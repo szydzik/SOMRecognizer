@@ -11,7 +11,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import neural.KohonenNetwork;
-import neural.Neuron;
 
 public class MainGui extends JFrame {
 
@@ -165,9 +164,7 @@ public class MainGui extends JFrame {
             KohonenNetwork.getInstance().setup();
             
             //training loop
-            for (int i = 0; i < number; i++) {
-                KohonenNetwork.getInstance().updateWeights();
-            }
+            KohonenNetwork.getInstance().train(number);
 
             KohonenNetwork.getInstance().getNeurons().stream().forEach((n) -> {
                 System.out.println(n.toString());
