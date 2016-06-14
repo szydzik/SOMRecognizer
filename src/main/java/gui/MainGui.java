@@ -24,9 +24,9 @@ public class MainGui extends JFrame {
     private JButton clearButton;
     private JButton transformButton;
     private JButton trainNetworkButton;
-//    private JButton drawLetterButton;
+    private JButton drawLetterButton;
     private JTextField trainingSetsAmount;
-//    private JComboBox<String> drawLetterCombo;
+    private JComboBox<String> drawLetterCombo;
     private JTextArea outputTextArea;
 
     public static void main(String[] args) {
@@ -64,13 +64,13 @@ public class MainGui extends JFrame {
         panel.setBackground(Color.LIGHT_GRAY);
         panel.setPreferredSize(new Dimension(410, 440));
 
-//        drawLetterButton = new JButton("Draw:");
-//        drawLetterCombo = new JComboBox<>(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"});
+        drawLetterButton = new JButton("Draw:");
+        drawLetterCombo = new JComboBox<>(new String[]{"A", "B"});//, "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"});
 
         drawingPanel = new DrawingPanel(400, 400, RESOLUTION);
 
-//        panel.add(drawLetterButton);
-//        panel.add(drawLetterCombo);
+        panel.add(drawLetterButton);
+        panel.add(drawLetterCombo);
         panel.add(drawingPanel);
 
         mainPanel.add(panel);
@@ -166,17 +166,17 @@ public class MainGui extends JFrame {
             });
         });
 //
-//        drawLetterButton.addActionListener(e -> {
-//            String letter = (String) drawLetterCombo.getSelectedItem();
-//            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
-//            drawingPanel.drawLetter(goodPixels);
-//        });
-//
-//        drawLetterCombo.addActionListener(e -> {
-//            String letter = (String) drawLetterCombo.getSelectedItem();
-//            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
-//            drawingPanel.drawLetter(goodPixels);
-//        });
+        drawLetterButton.addActionListener(e -> {
+            String letter = (String) drawLetterCombo.getSelectedItem();
+            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
+            drawingPanel.drawLetter(goodPixels);
+        });
+
+        drawLetterCombo.addActionListener(e -> {
+            String letter = (String) drawLetterCombo.getSelectedItem();
+            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
+            drawingPanel.drawLetter(goodPixels);
+        });
 
     }
 

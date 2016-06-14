@@ -46,8 +46,8 @@ public class Neuron {
         for (int i = 0; i < inputs.size(); i++) {
             sum += inputs.get(i) * weights.get(i);
         }
-//        output = (1 / (1 + Math.exp(-sum)));
-        output = sum;
+        output = (1 / (1 + Math.exp(-sum)));
+//        output = sum;
     }
 
 //    pobranie wartości wyjscia danego neuronu

@@ -5,14 +5,11 @@ import java.util.ArrayList;
 
 public class KohonenNetwork {
 
-//    public static int NUMBER_OF_LETTERS = 26;
-    public static int NUMBER_OF_LETTERS = 2;
-
+    public static int NUMBER_OF_NEURONS = 2;
     private ArrayList<Neuron> neurons = new ArrayList<>();
 
     //promień sąsiedztwa
-    private double lambda = 0.4;
-
+//    private double lambda = 0.4;
     //współczynnik uczenia
     private double alpha = 0.1;
 
@@ -28,44 +25,29 @@ public class KohonenNetwork {
         return instance;
     }
 
-    public void updateWeights() {
-
-        // Pick a Random neuron
-//        int index = (int) (Math.random() * (neurons.size() - 1));
-//
-//        Neuron n = neurons.get(index);
-//        ArrayList<Double> weights = n.getWeights();
-
-//        int indexBMU = findBMU(n.getWeights());
-        int indexBMU = findBMU();
-
-        for (int i = 0; i < neurons.get(indexBMU).getWeights().size(); i++) {
-            double weight = alpha * (neurons.get(indexBMU).getInputs().get(i) - neurons.get(indexBMU).getWeights().get(i));
-            neurons.get(indexBMU).getWeights().set(i, weight);
-        }
-
-//        //Update all the weights
-//        for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
-//            for (int j = 0; j < n.getWeights().size(); j++) {
-//
-//                double temp = neurons.get(i).getWeights().get(j);
-//                temp += (alpha * Phi(i, indexBMU, lambda) * (n.getWeights().get(j) - temp));
-////                temp += alpha  * (n.getWeights().get(j) - temp);
-//                neurons.get(i).getWeights().set(j, temp);
-//            }
-//        }
-        //Updates alpha and theta (Monoton decay)
-        updateParameters();
-    }
-
     public void setup() {
-        for (int i = 0; i < NUMBER_OF_LETTERS; i++) {
-            System.out.println("Neuron =>" + i + " Liteta: " + (char) (i + 65) + " " + GoodPixels.getInstance().getGoodPixels(i));
+        for (int i = 0; i < NUMBER_OF_NEURONS; i++) {
+            System.out.println("Neuron =>" + i + " ZNAK: " + (char) (i + 65) + " " + GoodPixels.getInstance().getGoodPixels(i));
             neurons.add(new Neuron(GoodPixels.getInstance().getGoodPixels(i)));
         }
     }
 
-//    private int findBMU(double location1, double location2) {
+    public void train(int number) {
+        for (int i = 0; i < number; i++) {
+            KohonenNetwork.getInstance().updateWeights();
+        }
+    }
+
+    public void updateWeights() {
+
+        int indexBMU = findBMU();
+        for (int i = 0; i < neurons.get(indexBMU).getWeights().size(); i++) {
+            double weight = neurons.get(indexBMU).getWeights().get(i) + alpha * (neurons.get(indexBMU).getInputs().get(i) - neurons.get(indexBMU).getWeights().get(i));
+            neurons.get(indexBMU).getWeights().set(i, weight);
+        }
+        updateParameters();
+    }
+
     private int findBMU() {
         double minimumDistance = getDistance(0);
         int minimumIndex = 0;
@@ -78,16 +60,8 @@ public class KohonenNetwork {
         }
         return minimumIndex;
     }
-
-    // Calculates the distance between neurons
-//    private double Phi(int index, int index2, double lambda) {
-        //exp((-distance(x,y)^2)/(2*lambda^2)
-//        double distance = Math.exp(-1.0 * Math.pow(getDistance(index, index2), 2) / (2.0 * Math.pow(lambda, 2)));
-//        return distance;
-//        return -1;
-//    }
-
-    //miara euklidesowa
+    
+    //miara Euklidesa
     private double getDistance(int index) {
         double temp = 0;
         for (int j = 0; j < neurons.size(); j++) {
@@ -99,7 +73,7 @@ public class KohonenNetwork {
 
     private void updateParameters() {
         alpha *= DECAY;
-        lambda *= DECAY;
+//        lambda *= DECAY;
     }
 
     public ArrayList<Neuron> getNeurons() {
@@ -118,12 +92,6 @@ public class KohonenNetwork {
             outputs.add(n.getOutput());
         });
         return outputs;
-    }
-
-    public void train(int number) {
-        for (int i = 0; i < number; i++) {
-            KohonenNetwork.getInstance().updateWeights();
-        }
     }
 
 }
