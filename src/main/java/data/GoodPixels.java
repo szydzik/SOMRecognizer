@@ -24,8 +24,14 @@ public class GoodPixels {
 
     //jak były dodane wszystkie w jednej funkcji to się wykrzaczało
     private void addGoodPixels() {
-        addAtoM();
-        addNtoZ();
+//        addAtoM();
+//        addNtoZ();
+
+        goodValues.add(new ArrayList<>(Arrays.asList(1,0,0,0,0,0,0,0,0)));
+
+
+        goodValues.add(new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,1)));
+
     }
 
     private void addAtoM() {

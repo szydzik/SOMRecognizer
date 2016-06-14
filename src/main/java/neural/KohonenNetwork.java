@@ -5,17 +5,17 @@ import java.util.ArrayList;
 
 public class KohonenNetwork {
 
-    public static int DOWNSAMPLE_HEIGHT = 20;
-    public static int DOWNSAMPLE_WIDTH = 20;
-    public static int NUMBER_OF_LETTERS = 26;
+
+//    public static int NUMBER_OF_LETTERS = 26;
+    public static int NUMBER_OF_LETTERS = 2;
 
     private ArrayList<Neuron> neurons = new ArrayList<>();
 
     //promień sąsiedztwa
-    private double lambda = 0.8;
+    private double lambda = 0.4;
 
     //współczynnik uczenia
-    private double alpha = 0.8;
+    private double alpha = 0.4;
 
     //współczynnik ograniczania uczenia
     private static final double DECAY = 0.995;

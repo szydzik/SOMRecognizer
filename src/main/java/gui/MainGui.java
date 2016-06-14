@@ -14,7 +14,7 @@ import neural.KohonenNetwork;
 
 public class MainGui extends JFrame {
 
-    private final int RESOLUTION = 20;
+    private final int RESOLUTION = 3;
 
 //    private Train networkTrainer;
     private JPanel mainPanel;
@@ -24,12 +24,13 @@ public class MainGui extends JFrame {
     private JButton clearButton;
     private JButton transformButton;
     private JButton trainNetworkButton;
-    private JButton drawLetterButton;
+//    private JButton drawLetterButton;
     private JTextField trainingSetsAmount;
-    private JComboBox<String> drawLetterCombo;
+//    private JComboBox<String> drawLetterCombo;
     private JTextArea outputTextArea;
 
     public static void main(String[] args) {
+        KohonenNetwork.getInstance().setup();
         new MainGui();
     }
 
@@ -63,13 +64,13 @@ public class MainGui extends JFrame {
         panel.setBackground(Color.LIGHT_GRAY);
         panel.setPreferredSize(new Dimension(410, 440));
 
-        drawLetterButton = new JButton("Draw:");
-        drawLetterCombo = new JComboBox<>(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"});
+//        drawLetterButton = new JButton("Draw:");
+//        drawLetterCombo = new JComboBox<>(new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"});
 
         drawingPanel = new DrawingPanel(400, 400, RESOLUTION);
 
-        panel.add(drawLetterButton);
-        panel.add(drawLetterCombo);
+//        panel.add(drawLetterButton);
+//        panel.add(drawLetterCombo);
         panel.add(drawingPanel);
 
         mainPanel.add(panel);
@@ -155,7 +156,7 @@ public class MainGui extends JFrame {
                 JOptionPane.showMessageDialog(this, "Wrong input", "ERROR", JOptionPane.PLAIN_MESSAGE);
             }
 
-            KohonenNetwork.getInstance().setup();
+            
             
             //training loop
             KohonenNetwork.getInstance().train(number);
@@ -165,18 +166,18 @@ public class MainGui extends JFrame {
             });
             updateTextArea();
         });
-
-        drawLetterButton.addActionListener(e -> {
-            String letter = (String) drawLetterCombo.getSelectedItem();
-            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
-            drawingPanel.drawLetter(goodPixels);
-        });
-
-        drawLetterCombo.addActionListener(e -> {
-            String letter = (String) drawLetterCombo.getSelectedItem();
-            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
-            drawingPanel.drawLetter(goodPixels);
-        });
+//
+//        drawLetterButton.addActionListener(e -> {
+//            String letter = (String) drawLetterCombo.getSelectedItem();
+//            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
+//            drawingPanel.drawLetter(goodPixels);
+//        });
+//
+//        drawLetterCombo.addActionListener(e -> {
+//            String letter = (String) drawLetterCombo.getSelectedItem();
+//            ArrayList<Integer> goodPixels = GoodPixels.getInstance().getGoodPixels(letter);
+//            drawingPanel.drawLetter(goodPixels);
+//        });
 
     }
 
@@ -187,9 +188,9 @@ public class MainGui extends JFrame {
             int letterValue = i + 65;
             sb.append((char) letterValue);
             double value = outputs.get(i);
-            if (value < 0.01) {
-                value = 0;
-            }
+//            if (value < 0.01) {
+//                value = 0;
+//            }
 //            if (value > 0.99)
 //                value = 1;
 
