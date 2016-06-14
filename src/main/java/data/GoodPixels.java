@@ -27,10 +27,10 @@ public class GoodPixels {
 //        addAtoM();
 //        addNtoZ();
 
-        goodValues.add(new ArrayList<>(Arrays.asList(1,0,0,0,0,0,0,0,0)));
+        goodValues.add(new ArrayList<>(Arrays.asList(1,1,0,0,0,0,0,0,0)));
 
 
-        goodValues.add(new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,0,1)));
+        goodValues.add(new ArrayList<>(Arrays.asList(0,0,0,0,0,0,0,1,1)));
 
     }
 

@@ -164,7 +164,6 @@ public class MainGui extends JFrame {
             KohonenNetwork.getInstance().getNeurons().stream().forEach((n) -> {
                 System.out.println(n.toString());
             });
-            updateTextArea();
         });
 //
 //        drawLetterButton.addActionListener(e -> {
