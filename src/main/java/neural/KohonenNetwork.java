@@ -12,9 +12,10 @@ public class KohonenNetwork {
     private double alpha = 0.1;
     private double conscience = 0.01;
 
+    private int lastWinnerIndex = -1;
     //współczynnik ograniczania uczenia
     private static final double DECAY = 0.995;
-    
+
     public static KohonenNetwork instance = null;
 
     public static KohonenNetwork getInstance() {
@@ -39,7 +40,12 @@ public class KohonenNetwork {
 
     public void updateWeights() {
         int indexBMU = findBMU();
-
+        if (indexBMU != lastWinnerIndex) {
+            lastWinnerIndex = indexBMU;
+        } else {
+            System.out.println("return");
+            return;
+        }
         for (int i = 0; i < neurons.get(indexBMU).getWeights().size(); i++) {
             double weight = neurons.get(indexBMU).getWeights().get(i) + alpha * (neurons.get(indexBMU).getInputs().get(i) - neurons.get(indexBMU).getWeights().get(i));
             neurons.get(indexBMU).getWeights().set(i, weight);
