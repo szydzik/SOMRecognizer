@@ -5,17 +5,16 @@ import java.util.ArrayList;
 
 public class KohonenNetwork {
 
-    public static int NUMBER_OF_NEURONS = 2;
+    public int NUMBER_OF_NEURONS = GoodPixels.getInstance().getGoodValues().size();
     private ArrayList<Neuron> neurons = new ArrayList<>();
 
-    //promień sąsiedztwa
-//    private double lambda = 0.4;
     //współczynnik uczenia
     private double alpha = 0.1;
+    private double conscience = 0.01;
 
     //współczynnik ograniczania uczenia
     private static final double DECAY = 0.995;
-
+    
     public static KohonenNetwork instance = null;
 
     public static KohonenNetwork getInstance() {
@@ -27,7 +26,7 @@ public class KohonenNetwork {
 
     public void setup() {
         for (int i = 0; i < NUMBER_OF_NEURONS; i++) {
-            System.out.println("Neuron =>" + i + " ZNAK: " + (char) (i + 65) + " " + GoodPixels.getInstance().getGoodPixels(i));
+            System.out.println("Neuron =>" + i + " ZNAK: " + (char) (i + 48) + " " + GoodPixels.getInstance().getGoodPixels(i));
             neurons.add(new Neuron(GoodPixels.getInstance().getGoodPixels(i)));
         }
     }
@@ -39,8 +38,8 @@ public class KohonenNetwork {
     }
 
     public void updateWeights() {
-
         int indexBMU = findBMU();
+
         for (int i = 0; i < neurons.get(indexBMU).getWeights().size(); i++) {
             double weight = neurons.get(indexBMU).getWeights().get(i) + alpha * (neurons.get(indexBMU).getInputs().get(i) - neurons.get(indexBMU).getWeights().get(i));
             neurons.get(indexBMU).getWeights().set(i, weight);
@@ -49,31 +48,33 @@ public class KohonenNetwork {
     }
 
     private int findBMU() {
-        double minimumDistance = getDistance(0);
+        double minimumDistance = getDistance(0) * (neurons.get(0).getWins() + 1) * conscience;
         int minimumIndex = 0;
         for (int i = 0; i < neurons.size(); i++) {
-            double distance = getDistance(i);
-            if (getDistance(i) < minimumDistance) {
+            double distance = getDistance(i) * (neurons.get(i).getWins() + 1) * conscience;
+//            System.out.println("Neuron: " + i + " Distance: " + distance);
+            if (distance < minimumDistance) {
                 minimumDistance = distance;
                 minimumIndex = i;
             }
         }
+        neurons.get(minimumIndex).win();
+        System.out.println("Wygrał neuron " + minimumIndex + " ---> " + neurons.get(minimumIndex).getWins() + " razy!");
         return minimumIndex;
     }
-    
+
     //miara Euklidesa
     private double getDistance(int index) {
         double temp = 0;
         for (int j = 0; j < neurons.size(); j++) {
             temp += Math.pow(neurons.get(index).getInputs().get(j) - neurons.get(index).getWeights().get(j), 2);
         }
-        System.out.println("Neuron: " + index + " Distance: " + Math.sqrt(temp));
+//        System.out.println("Neuron: " + index + " Distance: " + Math.sqrt(temp));
         return Math.sqrt(temp);
     }
 
     private void updateParameters() {
         alpha *= DECAY;
-//        lambda *= DECAY;
     }
 
     public ArrayList<Neuron> getNeurons() {
