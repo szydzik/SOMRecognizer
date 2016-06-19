@@ -7,6 +7,7 @@ public class Neuron {
 //    private Point coordinate;
     private ArrayList<Integer> inputs;  //wejścia
     private ArrayList<Double> weights;  //wagi
+    private int wins;
 
     public ArrayList<Double> getWeights() {
         return weights;
@@ -19,6 +20,7 @@ public class Neuron {
     private double output;  //wartość wyjścia neuronu
 
     public Neuron(ArrayList<Integer> inputs) {
+        this.wins = 0;
         this.weights = new ArrayList<>();
         setInputs(inputs);
         generateWeights();
@@ -36,6 +38,7 @@ public class Neuron {
     private void generateWeights() {
         for (Integer input : inputs) {
             weights.add(Math.random());
+//            weights.add(0.1);
         }
     }
 
@@ -55,8 +58,8 @@ public class Neuron {
         calculateOutput();
         return output;
     }
-    
-    public ArrayList<Integer> getInputs(){
+
+    public ArrayList<Integer> getInputs() {
         return inputs;
     }
 
@@ -64,5 +67,13 @@ public class Neuron {
     public String toString() {
         return "Neuron{" + "inputs=" + inputs + ", weights=" + weights + ", output=" + output + '}';
     }
-  
+
+    public void win() {
+        this.wins += 1;
+    }
+
+    public int getWins() {
+        return wins;
+    }
+
 }

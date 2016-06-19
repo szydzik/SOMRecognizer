@@ -10,17 +10,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import neural.KohonenNetwork;
 
 public class MainGui extends JFrame {
 
-    private final int RESOLUTION = 3;
+    private final int RESOLUTION = 7;
 
 //    private Train networkTrainer;
     private JPanel mainPanel;
     private DrawingPanel drawingPanel;
     private CustomPanel resultPanel;
-
+    private JButton printButton;
     private JButton clearButton;
     private JButton transformButton;
     private JButton trainNetworkButton;
@@ -65,8 +66,14 @@ public class MainGui extends JFrame {
         panel.setPreferredSize(new Dimension(410, 440));
 
         drawLetterButton = new JButton("Draw:");
-        drawLetterCombo = new JComboBox<>(new String[]{"A", "B"});//, "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"});
-
+//        drawLetterCombo = new JComboBox<>(new String[]{"A", "B"});//, "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"});
+//        drawLetterCombo = new JComboBox<>(new String[]{"0", "1", "2"});
+          drawLetterCombo = new JComboBox<>();
+          
+          for (int i=0; i<GoodPixels.getInstance().getGoodValues().size();i++){
+              drawLetterCombo.addItem(""+i);
+          }
+          
         drawingPanel = new DrawingPanel(400, 400, RESOLUTION);
 
         panel.add(drawLetterButton);
@@ -85,7 +92,7 @@ public class MainGui extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
 
         trainNetworkButton = new JButton("Train Netwoork");
-        trainingSetsAmount = new JFormattedTextField("0");
+        trainingSetsAmount = new JFormattedTextField("500");
         trainingSetsAmount.setMaximumSize(new Dimension(100, 30));
         trainingSetsAmount.setPreferredSize(new Dimension(100, 30));
         centerPanel.add(trainNetworkButton, gbc);
@@ -103,6 +110,9 @@ public class MainGui extends JFrame {
         clearButton = new JButton("Clear");
         clearButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         centerPanel.add(clearButton, gbc);
+
+        printButton = new JButton("Console print");
+        centerPanel.add(printButton, gbc);
 
         mainPanel.add(centerPanel);
     }
@@ -156,8 +166,6 @@ public class MainGui extends JFrame {
                 JOptionPane.showMessageDialog(this, "Wrong input", "ERROR", JOptionPane.PLAIN_MESSAGE);
             }
 
-            
-            
             //training loop
             KohonenNetwork.getInstance().train(number);
 
@@ -178,13 +186,28 @@ public class MainGui extends JFrame {
             drawingPanel.drawLetter(goodPixels);
         });
 
+        printButton.addActionListener((ActionEvent e) -> {
+            ArrayList<Integer> pixels = drawingPanel.getPixels();
+            System.out.println(""+pixels);
+//            Iterator i = pixels.iterator();
+//            System.out.println("");
+//            while (i.hasNext()) {
+//                Integer element = (Integer) i.next();
+//                System.out.print(element);
+//                if (i.hasNext()) System.out.print(", ");
+//            }
+//
+//            for (Integer pixel : pixels) {
+//                System.out.print(pixel);
+//            }
+        });
     }
 
     private void updateTextArea() {
         StringBuilder sb = new StringBuilder();
         ArrayList<Double> outputs = KohonenNetwork.getInstance().getOutputs();
         for (int i = 0; i < outputs.size(); i++) {
-            int letterValue = i + 65;
+            int letterValue = i + 48;
             sb.append((char) letterValue);
             double value = outputs.get(i);
 //            if (value < 0.01) {
