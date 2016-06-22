@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
-import neural.KohonenNetwork;
+import neural.Network;
 
 public class MainGui extends JFrame {
 
@@ -31,7 +31,7 @@ public class MainGui extends JFrame {
     private JTextArea outputTextArea;
 
     public static void main(String[] args) {
-        KohonenNetwork.getInstance().setup();
+        Network.getInstance().setup();
         new MainGui();
     }
 
@@ -142,8 +142,8 @@ public class MainGui extends JFrame {
 
         transformButton.addActionListener(e -> {
 
-            KohonenNetwork.getInstance().setInputs(drawingPanel.getPixels());
-            ArrayList<Double> outputs = KohonenNetwork.getInstance().getOutputs();
+            Network.getInstance().setInputs(drawingPanel.getPixels());
+            ArrayList<Double> outputs = Network.getInstance().getOutputs();
 
             int winIndex = 0;
 
@@ -167,9 +167,9 @@ public class MainGui extends JFrame {
             }
 
             //training loop
-            KohonenNetwork.getInstance().train(number);
+            Network.getInstance().train(number);
 
-            KohonenNetwork.getInstance().getNeurons().stream().forEach((n) -> {
+            Network.getInstance().getNeurons().stream().forEach((n) -> {
                 System.out.println(n.toString());
             });
         });
@@ -205,7 +205,7 @@ public class MainGui extends JFrame {
 
     private void updateTextArea() {
         StringBuilder sb = new StringBuilder();
-        ArrayList<Double> outputs = KohonenNetwork.getInstance().getOutputs();
+        ArrayList<Double> outputs = Network.getInstance().getOutputs();
         for (int i = 0; i < outputs.size(); i++) {
             int letterValue = i + 48;
             sb.append((char) letterValue);

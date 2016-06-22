@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Neuron {
 
-//    private Point coordinate;
     private ArrayList<Integer> inputs;  //wejścia
     private ArrayList<Double> weights;  //wagi
     private int wins;
@@ -26,19 +25,14 @@ public class Neuron {
         generateWeights();
     }
 
-    //wprowadzanie wejść dla neuronu
     public void setInputs(ArrayList<Integer> inputs) {
-
         this.inputs = new ArrayList<>(inputs);
-//        generateWeights();
-
     }
 
     //generacja losowych wag [0,1]
     private void generateWeights() {
         for (Integer input : inputs) {
             weights.add(Math.random());
-//            weights.add(0.1);
         }
     }
 
@@ -50,7 +44,6 @@ public class Neuron {
             sum += inputs.get(i) * weights.get(i);
         }
         output = (1 / (1 + Math.exp(-sum)));
-//        output = sum;
     }
 
 //    pobranie wartości wyjscia danego neuronu

@@ -3,28 +3,37 @@ package neural;
 import data.GoodPixels;
 import java.util.ArrayList;
 
-public class KohonenNetwork {
+public class Network {
 
+    //liczba neuronów w sieci zalezna od ilości znaków
+    //kazdy neuron odpowiada za jeden znak
     public int NUMBER_OF_NEURONS = GoodPixels.getInstance().getGoodValues().size();
     private ArrayList<Neuron> neurons = new ArrayList<>();
 
     //współczynnik uczenia
     private double alpha = 0.1;
+    //współczynnik wykorzystywany w mechanizmie sumienia
     private double conscience = 0.01;
-
+    
+    //index ostatniegoo zwycięskiego neuronu
     private int lastWinnerIndex = -1;
+    
     //współczynnik ograniczania uczenia
+    //współczynnik uczenia mnożony jest przez tę wartosc 
+    //przy każdej iteracji pętl
     private static final double DECAY = 0.995;
 
-    public static KohonenNetwork instance = null;
+    public static Network instance = null;
 
-    public static KohonenNetwork getInstance() {
+    public static Network getInstance() {
         if (instance == null) {
-            instance = new KohonenNetwork();
+            instance = new Network();
         }
         return instance;
     }
 
+    //funkcja inicjalizująca
+    //tworzone są neurony zaleznie od danych wejściowych
     public void setup() {
         for (int i = 0; i < NUMBER_OF_NEURONS; i++) {
             System.out.println("Neuron =>" + i + " ZNAK: " + (char) (i + 48) + " " + GoodPixels.getInstance().getGoodPixels(i));
@@ -34,7 +43,7 @@ public class KohonenNetwork {
 
     public void train(int number) {
         for (int i = 0; i < number; i++) {
-            KohonenNetwork.getInstance().updateWeights();
+            Network.getInstance().updateWeights();
         }
     }
 
@@ -47,7 +56,8 @@ public class KohonenNetwork {
             return;
         }
         for (int i = 0; i < neurons.get(indexBMU).getWeights().size(); i++) {
-            double weight = neurons.get(indexBMU).getWeights().get(i) + alpha * (neurons.get(indexBMU).getInputs().get(i) - neurons.get(indexBMU).getWeights().get(i));
+            double weight = neurons.get(indexBMU).getWeights().get(i) + alpha 
+                    * (neurons.get(indexBMU).getInputs().get(i) - neurons.get(indexBMU).getWeights().get(i));
             neurons.get(indexBMU).getWeights().set(i, weight);
         }
         updateParameters();
@@ -75,7 +85,6 @@ public class KohonenNetwork {
         for (int j = 0; j < neurons.size(); j++) {
             temp += Math.pow(neurons.get(index).getInputs().get(j) - neurons.get(index).getWeights().get(j), 2);
         }
-//        System.out.println("Neuron: " + index + " Distance: " + Math.sqrt(temp));
         return Math.sqrt(temp);
     }
 
